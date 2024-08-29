@@ -1,4 +1,4 @@
-FROM python:3.12-alpine AS base
+FROM python:3.12-slim AS base
 
 # Stage 1: Build environment (discarded after building)
 FROM base AS builder
@@ -17,5 +17,7 @@ COPY --from=builder /app/ ./
 
 # Copy rest of the application code
 COPY . .
+
+EXPOSE 8000
 
 CMD ["fastapi", "run", "main.py"]
