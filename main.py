@@ -1,3 +1,4 @@
+import uvicorn
 from fastapi import FastAPI, File, UploadFile, HTTPException, Form
 from typing import Optional, Union
 import base64
@@ -6,6 +7,7 @@ from services import ocr_service
 from starlette.datastructures import UploadFile as StarletteUploadFile
 
 app = FastAPI()
+
 
 async def decode_image(image: Union[UploadFile, StarletteUploadFile, str, None]) -> bytes:
     if image is None:
@@ -79,3 +81,7 @@ async def detection_endpoint(
         return APIResponse(code=200, message="Success", data=bboxes)
     except Exception as e:
         return APIResponse(code=500, message=str(e))
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)
